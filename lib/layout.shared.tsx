@@ -17,6 +17,11 @@ export function baseOptions(): BaseLayoutProps {
       ),
     },
     // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [],
+    links: [
+      {
+        text: 'Blog',
+        url: '/blog',
+      },
+    ],
   };
 }
