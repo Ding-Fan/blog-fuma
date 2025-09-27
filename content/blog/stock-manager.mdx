@@ -28,3 +28,60 @@ lidar, iphone pro (start from 12)
     - 🤖 Available for iOS, Android, web browsers, and aliens👽
     - 🥷 Friendly support team and community
 
+## Brewery Keg Tracking App Concept
+
+### Core Concept
+iOS app using LiDAR to scan brewery refrigerator rooms and create 3D maps for keg inventory management. Target users: brewery staff who need to efficiently locate and track kegs in cold storage environments.
+
+### Key Features
+
+#### LiDAR 3D Scanning
+- Initial room scan to create accurate 3D model of refrigerator storage space
+- Periodic re-scans to update layout changes
+- Precision tracking for stacked and multi-level keg storage
+
+#### Manual Area Division System
+Suggested zone categories for brewery operations:
+- **By Beer Type**: IPA section, Lager section, Stout section, etc.
+- **By Status**: Full kegs, Tapped kegs, Empty (ready for pickup)
+- **By Batch/Date**: FIFO inventory management zones
+- **By Temperature**: Different climate zones if applicable
+
+#### QR Code Integration
+Each keg has QR code containing:
+- Empty weight and volume specifications
+- Keg ID and manufacturer details
+- Link to dynamic inventory data
+
+#### Registration & Tracking System
+**Keg Check-In Process:**
+- Scan QR code to register keg
+- Log contents (beer type, ABV, batch number)
+- Record pricing information
+- Assign to storage zone on 3D map
+- Set delivery/brewing date
+
+**Keg Check-Out Process:**
+- Scan QR code for identification
+- Update status (tapped, empty, returned)
+- Log removal date and destination
+- Update 3D map location
+
+#### Search & Navigation
+- "Find [Beer Name]" - highlights location on 3D map
+- Filter by status, type, date ranges
+- Visual path finding to specific kegs
+- Inventory alerts for low stock or expired products
+
+### User Journey Considerations
+1. **Initial Setup**: Full room LiDAR scan and zone definition
+2. **Daily Operations**: Quick keg registration and location updates
+3. **Inventory Management**: Visual browsing of 3D map for stock checking
+4. **Order Fulfillment**: Efficient keg location for bar/restaurant delivery
+
+### Technical Requirements
+- iPhone 12 Pro or newer (LiDAR capability)
+- Integration with existing brewery management systems
+- Offline functionality for cold storage environments
+- Export capabilities for inventory reports
+
