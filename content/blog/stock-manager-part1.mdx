@@ -1,0 +1,302 @@
+---
+title: 'Building a Brewery Keg Tracker iOS App - Part 1: QR Scanner & Basic Inventory'
+description: 'Learn Swift while building a practical brewery keg tracking app. Part 1 covers creating a basic QR code scanner and inventory list.'
+date: 2024-12-27
+---
+
+# Building a Brewery Keg Tracker iOS App - Part 1
+
+In this tutorial series, we'll build a brewery keg tracking app from scratch while learning Swift and iOS development. By the end, you'll have an app that can scan QR codes, track kegs, and eventually use LiDAR for 3D mapping.
+
+## What We're Building in Part 1
+
+A simple two-tab iOS app:
+- **Scanner Tab**: QR code scanner to add kegs
+- **Inventory Tab**: List view of all scanned kegs
+
+## Prerequisites
+
+- Mac with Xcode installed
+- iPhone (for testing camera features)
+- Basic programming knowledge (any language)
+
+## Step 1: Create New Xcode Project
+
+1. Open Xcode
+2. Create new project → iOS → App
+3. Product Name: `KegTracker`
+4. Interface: SwiftUI
+5. Language: Swift
+
+## Step 2: Project Structure
+
+We'll create these files:
+```
+KegTracker/
+├── ContentView.swift (main tab view)
+├── ScannerView.swift (QR scanner)
+├── InventoryView.swift (keg list)
+├── KegModel.swift (data model)
+└── Info.plist (camera permissions)
+```
+
+## Step 3: Data Model
+
+First, let's define what a keg looks like in our app:
+
+```swift
+// KegModel.swift
+import Foundation
+
+struct Keg: Identifiable, Codable {
+    let id = UUID()
+    let qrCode: String
+    let beerName: String
+    let beerType: String
+    let scanDate: Date
+    var location: String = "Unassigned"
+
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: scanDate)
+    }
+}
+
+class KegStore: ObservableObject {
+    @Published var kegs: [Keg] = []
+
+    func addKeg(qrCode: String, beerName: String, beerType: String) {
+        let newKeg = Keg(
+            qrCode: qrCode,
+            beerName: beerName,
+            beerType: beerType,
+            scanDate: Date()
+        )
+        kegs.append(newKeg)
+    }
+}
+```
+
+## Step 4: Main Tab View
+
+Replace ContentView.swift with our tab structure:
+
+```swift
+// ContentView.swift
+import SwiftUI
+
+struct ContentView: View {
+    @StateObject private var kegStore = KegStore()
+
+    var body: some View {
+        TabView {
+            ScannerView()
+                .tabItem {
+                    Image(systemName: "qrcode.viewfinder")
+                    Text("Scanner")
+                }
+                .environmentObject(kegStore)
+
+            InventoryView()
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                    Text("Inventory")
+                }
+                .environmentObject(kegStore)
+        }
+    }
+}
+```
+
+## Step 5: QR Scanner View
+
+Create the scanner interface:
+
+```swift
+// ScannerView.swift
+import SwiftUI
+import AVFoundation
+
+struct ScannerView: View {
+    @EnvironmentObject var kegStore: KegStore
+    @State private var showingAddKeg = false
+    @State private var scannedCode = ""
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                Text("Point camera at QR code")
+                    .font(.title2)
+                    .padding()
+
+                // QR Scanner will go here
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 300, height: 300)
+                    .overlay(
+                        Text("Camera View\n(Coming next)")
+                            .multilineTextAlignment(.center)
+                    )
+
+                Button("Simulate Scan") {
+                    scannedCode = "QR-\(Int.random(in: 1000...9999))"
+                    showingAddKeg = true
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+
+                Spacer()
+            }
+            .navigationTitle("Scanner")
+            .sheet(isPresented: $showingAddKeg) {
+                AddKegView(qrCode: scannedCode)
+                    .environmentObject(kegStore)
+            }
+        }
+    }
+}
+
+struct AddKegView: View {
+    @EnvironmentObject var kegStore: KegStore
+    @Environment(\.dismiss) private var dismiss
+
+    let qrCode: String
+    @State private var beerName = ""
+    @State private var beerType = ""
+
+    let beerTypes = ["IPA", "Lager", "Stout", "Pilsner", "Wheat", "Sour", "Porter"]
+
+    var body: some View {
+        NavigationView {
+            Form {
+                Section("QR Code") {
+                    Text(qrCode)
+                        .foregroundColor(.secondary)
+                }
+
+                Section("Beer Details") {
+                    TextField("Beer Name", text: $beerName)
+
+                    Picker("Beer Type", selection: $beerType) {
+                        ForEach(beerTypes, id: \.self) { type in
+                            Text(type).tag(type)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Add Keg")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        kegStore.addKeg(
+                            qrCode: qrCode,
+                            beerName: beerName,
+                            beerType: beerType.isEmpty ? "Unknown" : beerType
+                        )
+                        dismiss()
+                    }
+                    .disabled(beerName.isEmpty)
+                }
+            }
+        }
+    }
+}
+```
+
+## Step 6: Inventory View
+
+Create the list to display kegs:
+
+```swift
+// InventoryView.swift
+import SwiftUI
+
+struct InventoryView: View {
+    @EnvironmentObject var kegStore: KegStore
+
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(kegStore.kegs) { keg in
+                    KegRowView(keg: keg)
+                }
+            }
+            .navigationTitle("Inventory")
+            .overlay {
+                if kegStore.kegs.isEmpty {
+                    ContentUnavailableView(
+                        "No Kegs",
+                        systemImage: "qrcode",
+                        description: Text("Scan QR codes to add kegs to your inventory")
+                    )
+                }
+            }
+        }
+    }
+}
+
+struct KegRowView: View {
+    let keg: Keg
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(keg.beerName)
+                    .font(.headline)
+                Spacer()
+                Text(keg.beerType)
+                    .font(.caption)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Color.blue.opacity(0.2))
+                    .cornerRadius(4)
+            }
+
+            Text("QR: \(keg.qrCode)")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            Text("Scanned: \(keg.formattedDate)")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 2)
+    }
+}
+```
+
+## Step 7: Camera Permissions
+
+Add camera permission to Info.plist:
+
+1. Open Info.plist
+2. Add new entry: `Privacy - Camera Usage Description`
+3. Value: `"This app needs camera access to scan QR codes on kegs"`
+
+## Testing Your App
+
+1. Build and run on device (camera won't work in simulator)
+2. Use "Simulate Scan" button to test the flow
+3. Add a few test kegs and see them in inventory
+
+## What's Next
+
+In Part 2, we'll add:
+- Real QR code scanning with camera
+- Search and filter functionality
+- Basic location assignment
+
+## Key Learning Points
+
+- **SwiftUI basics**: Views, state management, navigation
+- **Data modeling**: Structs, ObservableObject
+- **Tab navigation**: TabView and environmentObject
+- **Forms and sheets**: User input and modal presentation
+
+Ready for Part 2? We'll make that QR scanner actually work with the camera!
