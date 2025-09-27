@@ -1,0 +1,44 @@
+---
+title: 'PM2 Process Manager: Quick Setup Guide'
+description: 'A concise guide to setting up PM2 for process management with ecosystem configuration'
+---
+
+# PM2 Process Manager
+
+PM2 is a production-ready process manager for Node.js applications that helps keep your apps running smoothly.
+
+## Installation
+
+```bash
+pnpm install pm2 -g
+```
+
+## Resources
+
+- [Official PM2 Repository](https://github.com/Unitech/pm2)
+
+## Configuration
+
+Create an ecosystem configuration file at `/home/user/pm2-manager/ecosystem.config.js`:
+
+```javascript
+module.exports = {
+  apps: [
+    {
+      name: "telepocket",
+      script: "pnpm",
+      args: "dev",
+      env: {},
+    },
+  ],
+};
+```
+
+## Usage
+
+Start your application with PM2 using the ecosystem file:
+
+```bash
+pm2 start ecosystem.config.js
+```
+
