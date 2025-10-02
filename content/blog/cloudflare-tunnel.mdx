@@ -1,0 +1,164 @@
+---
+title: 'Cloudflare Tunnel: Secure Access Without Public IPs'
+description: 'A practical guide to setting up Cloudflare Tunnel with PM2 for persistent service management'
+---
+
+# Cloudflare Tunnel
+
+Cloudflare Tunnel provides a secure way to connect your local services to the internet without exposing a public IP address. Using the `cloudflared` daemon, you can create outbound-only connections to Cloudflare's global network.
+
+## Installation
+
+Install cloudflared using your preferred package manager:
+
+### macOS
+```bash
+brew install cloudflared
+```
+
+### Linux (Debian/Ubuntu)
+```bash
+wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+sudo dpkg -i cloudflared-linux-amd64.deb
+```
+
+### Windows
+Download the latest release from the [cloudflared releases page](https://github.com/cloudflare/cloudflared/releases).
+
+## Resources
+
+- [Official Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
+- [cloudflared GitHub Repository](https://github.com/cloudflare/cloudflared)
+
+## Quick Setup
+
+### 1. Authenticate with Cloudflare
+
+```bash
+cloudflared tunnel login
+```
+
+This opens a browser window to authorize cloudflared with your Cloudflare account.
+
+### 2. Create a Tunnel
+
+```bash
+cloudflared tunnel create my-tunnel
+```
+
+This creates a tunnel named "my-tunnel" and generates credentials in `~/.cloudflared/`.
+
+### 3. Configure the Tunnel
+
+Create a configuration file at `~/.cloudflared/config.yml`:
+
+```yaml
+tunnel: my-tunnel
+credentials-file: /home/user/.cloudflared/<tunnel-id>.json
+
+ingress:
+  - hostname: app.example.com
+    service: http://localhost:3000
+  - hostname: api.example.com
+    service: http://localhost:8080
+  - service: http_status:404
+```
+
+### 4. Route DNS to the Tunnel
+
+```bash
+cloudflared tunnel route dns my-tunnel app.example.com
+cloudflared tunnel route dns my-tunnel api.example.com
+```
+
+## Running with PM2
+
+To ensure your tunnel stays running persistently, manage it with PM2. Add to your `ecosystem.config.js`:
+
+```javascript
+module.exports = {
+  apps: [
+    {
+      name: "cloudflare-tunnel",
+      script: "cloudflared",
+      args: "tunnel run my-tunnel",
+      autorestart: true,
+      restart_delay: 5000,
+    },
+  ],
+};
+```
+
+### Start the Tunnel
+
+```bash
+pm2 start ecosystem.config.js
+```
+
+### Restart the Tunnel
+
+```bash
+pm2 restart cloudflare-tunnel
+```
+
+### Stop the Tunnel
+
+```bash
+pm2 stop cloudflare-tunnel
+```
+
+### Delete from PM2
+
+```bash
+pm2 delete cloudflare-tunnel
+```
+
+### Persist Configuration
+
+Save PM2 process list and enable startup on boot:
+
+```bash
+pm2 save
+pm2 startup
+```
+
+## Key Benefits
+
+- **No Public IP Required**: Access services behind NAT or firewalls
+- **Zero Trust Security**: Built-in DDoS protection and access control
+- **Multiple Services**: Route multiple domains through a single tunnel
+- **Automatic Failover**: PM2 ensures the tunnel restarts on failure
+
+## Useful Commands
+
+### Cloudflared Commands
+
+```bash
+# List all tunnels
+cloudflared tunnel list
+
+# Get tunnel info
+cloudflared tunnel info my-tunnel
+
+# Delete a tunnel
+cloudflared tunnel delete my-tunnel
+
+# Clean up unused tunnels
+cloudflared tunnel cleanup my-tunnel
+```
+
+### PM2 Commands
+
+```bash
+# Check tunnel status
+pm2 status cloudflare-tunnel
+
+# View tunnel logs
+pm2 logs cloudflare-tunnel
+
+# Monitor in real-time
+pm2 monit
+
+# Reload configuration
+pm2 reload ecosystem.config.js
+```

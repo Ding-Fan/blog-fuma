@@ -19,16 +19,35 @@ pnpm install pm2 -g
 
 ## Configuration
 
-Create an ecosystem configuration file at `/home/user/pm2-manager/ecosystem.config.js`:
+Create an ecosystem configuration file at `ecosystem.config.js`:
 
 ```javascript
 module.exports = {
   apps: [
     {
-      name: "telepocket",
-      script: "pnpm",
-      args: "dev",
-      env: {},
+      name: "web-app",
+      script: "npm",
+      args: "start",
+      cwd: "/home/user/projects/web-app",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3000,
+      },
+    },
+    {
+      name: "api-server",
+      script: "node",
+      args: "server.js",
+      cwd: "/home/user/projects/api",
+      instances: 2,
+      exec_mode: "cluster",
+    },
+    {
+      name: "worker",
+      script: "npm",
+      args: "run worker",
+      cwd: "/home/user/projects/background-jobs",
+      autorestart: true,
     },
   ],
 };
@@ -36,9 +55,93 @@ module.exports = {
 
 ## Usage
 
-Start your application with PM2 using the ecosystem file:
+### Start Applications
+
+Start all applications defined in the ecosystem file:
 
 ```bash
 pm2 start ecosystem.config.js
+```
+
+Start a specific application:
+
+```bash
+pm2 start ecosystem.config.js --only web-app
+```
+
+### Restart Applications
+
+Restart all applications:
+
+```bash
+pm2 restart all
+```
+
+Restart a specific application:
+
+```bash
+pm2 restart web-app
+```
+
+### Stop Applications
+
+Stop all applications:
+
+```bash
+pm2 stop all
+```
+
+Stop a specific application:
+
+```bash
+pm2 stop web-app
+```
+
+### Delete Applications
+
+Delete all applications from PM2:
+
+```bash
+pm2 delete all
+```
+
+Delete a specific application:
+
+```bash
+pm2 delete web-app
+```
+
+### Monitor and Logs
+
+View application status:
+
+```bash
+pm2 status
+```
+
+View logs for all applications:
+
+```bash
+pm2 logs
+```
+
+View logs for a specific application:
+
+```bash
+pm2 logs web-app
+```
+
+### Persist Configuration
+
+Save the current PM2 process list:
+
+```bash
+pm2 save
+```
+
+Set PM2 to start on system boot:
+
+```bash
+pm2 startup
 ```
 
