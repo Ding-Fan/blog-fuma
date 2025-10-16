@@ -1,0 +1,133 @@
+---
+title: "Frontend Playground Audio"
+---
+
+Have you ever run into a webpage and it plays audio?
+
+<audio src="https://github.com/mdn/learning-area/raw/refs/heads/main/html/multimedia-and-embedding/tasks/media-embed/media/audio.mp3" controls></audio>
+
+> The `<audio>` HTML element is used to embed sound content in documents. 
+>
+> --[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/audio)
+
+Here is the code for it:
+
+```html title="index.html" copy
+<audio
+    src="https://github.com/mdn/learning-area/raw/refs/heads/main/html/multimedia-and-embedding/tasks/media-embed/media/audio.mp3"
+    controls
+></audio>
+```
+
+Try to copy and paste it in this [playground](https://codepen.io/neon/pen/qEbVZWL) 
+
+- `<audio></audio>`: The audio element. 
+  - `<` is the opening angle bracket.
+  - `>` is the closing angle bracket.
+  - `<audio>` is the opening tag.
+  - `</audio>` is the closing tag. Look, there is a `/` 
+
+- `src="..."`: The <span className='text-red-600'>s</span>ou<span className='text-red-600'>rc</span>e **attribute**. It tells the browser where to find the audio file. 
+  - See, this is the **key value pair pattern** .
+    - The key is `src`
+    - The value is `"https://github.com/mdn/learning-area/raw/refs/heads/main/html/multimedia-and-embedding/tasks/media-embed/media/audio.mp3"`
+
+- `controls`: This **attribute** tells the browser to show the default audio controls (play, pause, volume, etc.). It doesn't need a value. Just having it there is enough.
+
+What if we want to create a button to play the audio?
+
+> The `HTMLMediaElement play()` method attempts to begin playback of the media.
+>
+> --[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play)
+
+```html title="index.html" copy
+<!-- Put this in the HTML section -->
+
+<button id="playButton">Play Audio</button>
+<audio
+    id="myAudio"
+    src="https://github.com/mdn/learning-area/raw/refs/heads/main/html/multimedia-and-embedding/tasks/media-embed/media/audio.mp3"
+    controls
+></audio>
+```
+
+```js title="index.js" copy lineNumbers
+// Put this in the JS section
+
+// From the HTML document
+// we get an element by its id
+// the id is playButton
+// and we store it in a constant variable
+// called playButton
+const playButton = document.getElementById('playButton');
+
+// From the HTML document, we get an element by its id myAudio
+// and we store it in constant variable myAudio
+const myAudio = document.getElementById('myAudio');
+
+// We add an event listener to the playButton
+// The event listener listens for a 'click' event
+// When the button is clicked, it runs a function
+playButton.addEventListener('click', function() {
+
+    // call the play method on the myAudio element
+    myAudio.play();
+});
+```
+
+You can see and hear that audio plays when you click the Play Audio button.
+
+What if we want to play the audio starting from 0 every time we click the button?
+
+> The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds.
+>
+> Changing the value of `currentTime` seeks the media to the new time.
+>
+> --[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/currentTime)
+
+```js title="index.js"
+... // rest of the code is the same
+
+playButton.addEventListener('click', function() {
+
+    myAudio.currentTime = 0; // Set the current time to 0 // [!code ++]
+    myAudio.play();
+});
+```
+
+What if we want to hide the default audio controls? Just remove the `controls` attribute.
+
+Don't click the Play Audio button yet! Because...
+
+```html title="index.html" 
+<audio id="myAudio" src="https://github.com/mdn/learning-area/raw/refs/heads/main/html/multimedia-and-embedding/tasks/media-embed/media/audio.mp3" controls ></audio> <!-- [!code --] -->
+
+<audio id="myAudio" src="https://github.com/mdn/learning-area/raw/refs/heads/main/html/multimedia-and-embedding/tasks/media-embed/media/audio.mp3" ></audio> <!-- [!code ++] -->
+``` 
+
+Now you don't have a pause button! You have to wait for the audio play to the end...or refresh the page.
+
+Why don't you try to create a Pause Audio button?
+
+> The `HTMLMediaElement.pause()` method will pause playback of the media, if the media is already in a paused state this method will have no effect.
+>
+> --[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/pause)
+
+```html title="index.html"
+<button id="pauseButton">Pause Audio</button> <!-- [!code ++] -->
+```
+
+```js title="index.js"
+const pauseButton = document.getElementById('pauseButton'); // [!code ++]
+
+pauseButton.addEventListener('click', function() { // [!code ++]
+    myAudio.pause(); // [!code ++]
+}); // [!code ++]
+```
+
+
+<div className='pb-80'></div>
+
+
+THE END
+
