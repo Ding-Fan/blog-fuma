@@ -36,9 +36,19 @@ Try to copy and paste it in this [playground](https://codepen.io/neon/pen/qEbVZW
 
 What if we want to create a button to play the audio?
 
-> The `HTMLMediaElement play()` method attempts to begin playback of the media.
->
-> --[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play)
+```html
+<button id="playButton">Play Audio</button>
+```
+
+- `<button></button>`: The ____ element. 
+  - `<` is the ____ angle bracket.
+  - `>` is the ____.
+  - `<button>` is the ____ tag.
+  - `</button>` is the ____. Look, there is a `/` 
+  - `id="playButton"`: The ____ attribute. It gives the button an id of "playButton". 
+    - See, this is the ____ pattern.
+      - The ____ is `id`
+      - The ____ is `"playButton"`
 
 ```html title="index.html" copy
 <!-- Put this in the HTML section -->
@@ -50,6 +60,8 @@ What if we want to create a button to play the audio?
     controls
 ></audio>
 ```
+
+You can see the button beside the audio controls, and if you click the button, NOTHING HAPPENS! NOTHING HAPPENS! NOTHING, HAPPENS!
 
 ```js title="index.js" copy lineNumbers
 // Put this in the JS section
@@ -74,6 +86,10 @@ playButton.addEventListener('click', function() {
     myAudio.play();
 });
 ```
+
+> The `HTMLMediaElement play()` method attempts to begin playback of the media.
+>
+> --[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play)
 
 You can see and hear that audio plays when you click the Play Audio button.
 
