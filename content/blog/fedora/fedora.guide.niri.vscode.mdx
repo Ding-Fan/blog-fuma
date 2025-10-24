@@ -1,0 +1,128 @@
+# VS Code Installation & Configuration for Fedora
+
+Complete guide to installing and configuring Visual Studio Code on Fedora Linux with recommended extensions and settings.
+
+---
+
+## VS Code Installation & Configuration
+
+### Installation
+
+Install from flatpak.
+
+Sign in to sync settings and extensions.
+
+Sign in for copilot.
+
+Create a desktop file at `~/.local/share/applications/code.desktop`
+
+```sh
+[Desktop Entry]
+Name=Visual Studio Code
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+Exec=/usr/share/code/code --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 %F
+Icon=vscode
+Type=Application
+StartupNotify=false
+StartupWMClass=Code
+Categories=TextEditor;Development;IDE;
+MimeType=application/x-code-workspace;
+Actions=new-empty-window;
+Keywords=vscode;
+
+[Desktop Action new-empty-window]
+Name=New Empty Window
+Name[cs]=Nové prázdné okno
+Name[de]=Neues leeres Fenster
+Name[es]=Nueva ventana vacía
+Name[fr]=Nouvelle fenêtre vide
+Name[it]=Nuova finestra vuota
+Name[ja]=新しい空のウィンドウ
+Name[ko]=새 빈 창
+Name[ru]=Новое пустое окно
+Name[zh_CN]=新建空窗口
+Name[zh_TW]=開新空視窗
+Exec=/usr/share/code/code --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 --new-window %F
+Icon=vscode
+
+```
+
+### Recommended Extensions
+
+- vim
+- GitHub Copilot
+- Cline
+- GitIgnore
+- Git Graph v3
+- GitLens
+- Gruvbox Theme
+- Partial Diff
+- Live Server
+- Markdown All in One
+- markdownlint
+- Simple React Snippets
+- Extension Pack for Java
+- Tailwind CSS IntelliSense
+- MDX
+
+#### heavy extensions, install only if needed
+
+- database client jdbc
+- dev containers
+- github copilot
+- github copilot chat
+- iconify IntelliSense
+- mysql
+
+### Settings Configuration
+Add these settings to your VS Code `settings.json`:
+
+```json
+{
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.fontSize": 21,
+    "editor.fontLigatures": true,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.smoothScrolling": true,
+    "editor.fontFamily": "'Mononoki Nerd Font Mono', 'JetBrains Mono', monospace",
+    "editor.editContext": false,
+    "vim.foldfix": true,
+    "vim.useSystemClipboard": true,
+    "vim.easymotion": true,
+    "vim.leader": ",",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "markdownlint.config": {
+        "MD012": false,
+        "MD030": false,
+        "MD007": false
+    }
+}
+```
+
+### Additional Setup
+- Remove Ctrl+P keyboard shortcut in Vim mode to enable default VS Code shortcut
+- Turn on auto save on focus change
+- Set editor word wrap to wordWrapColumn
+- Enable editor smooth scrolling
+
+#### Japanese Input Fix (日本語入力の修正)
+
+**問題:**
+VSCode の Vim プラグインを使用し、fcitx5 mozc で日本語を入力する際、漢字を選択して Enter キーを押すと、片仮名が出力され、前の文字が1〜2文字削除されてしまう問題が発生します。
+
+**解決方法:**
+`"editor.editContext": false` を設定することで、この問題を解決できます。
+
+**参考:** https://github.com/VSCodeVim/Vim/issues/9672#issuecomment-2975557747
+
+**Reference:** [Official VS Code Linux Installation Guide](https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions)
