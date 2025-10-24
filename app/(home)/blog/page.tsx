@@ -5,8 +5,7 @@ export default function Home() {
   const posts = blog.getPages();
 
   return (
-    <main className="grow container mx-auto px-4 py-4">
-      <h1 className="text-4xl font-bold mb-4">this is the blog page (but not specific blog page)</h1>
+    <main className="grow container mx-auto px-4 py-28">
       <div className="flex flex-col gap-8">
         {posts.map((post) => (
           <Link

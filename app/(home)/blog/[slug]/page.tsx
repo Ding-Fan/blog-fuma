@@ -33,12 +33,6 @@ export default async function Page(props: {
                 {new Date(page.data.date).toDateString()}
               </p>
             </div>
-            <div className="flex flex-col gap-4 text-sm">
-              <div>
-                <p className="mb-1 text-fd-muted-foreground">Written by</p>
-                <p className="font-medium">{page.data.author}</p>
-              </div>
-            </div>
             <p className="mb-4 text-fd-muted-foreground">{page.data.description}</p>
             {/* <Link href="/blog">Back</Link> */}
           </div>
