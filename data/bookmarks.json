@@ -1,0 +1,108 @@
+{
+  "tiles": [
+    {
+      "id": "github",
+      "title": "GitHub",
+      "url": "https://github.com",
+      "size": "large",
+      "color": "#24292e",
+      "icon": "💻"
+    },
+    {
+      "id": "gmail",
+      "title": "Gmail",
+      "url": "https://mail.google.com",
+      "size": "medium",
+      "color": "#EA4335",
+      "icon": "📧"
+    },
+    {
+      "id": "youtube",
+      "title": "YouTube",
+      "url": "https://youtube.com",
+      "size": "medium",
+      "color": "#FF0000",
+      "icon": "📺"
+    },
+    {
+      "id": "twitter",
+      "title": "Twitter",
+      "url": "https://twitter.com",
+      "size": "small",
+      "color": "#1DA1F2",
+      "icon": "🐦"
+    },
+    {
+      "id": "reddit",
+      "title": "Reddit",
+      "url": "https://reddit.com",
+      "size": "small",
+      "color": "#FF4500",
+      "icon": "🤖"
+    },
+    {
+      "id": "stackoverflow",
+      "title": "Stack Overflow",
+      "url": "https://stackoverflow.com",
+      "size": "medium",
+      "color": "#F48024",
+      "icon": "💬"
+    },
+    {
+      "id": "linkedin",
+      "title": "LinkedIn",
+      "url": "https://linkedin.com",
+      "size": "small",
+      "color": "#0A66C2",
+      "icon": "💼"
+    },
+    {
+      "id": "amazon",
+      "title": "Amazon",
+      "url": "https://amazon.com",
+      "size": "small",
+      "color": "#FF9900",
+      "icon": "🛒"
+    },
+    {
+      "id": "netflix",
+      "title": "Netflix",
+      "url": "https://netflix.com",
+      "size": "large",
+      "color": "#E50914",
+      "icon": "🎬"
+    },
+    {
+      "id": "spotify",
+      "title": "Spotify",
+      "url": "https://spotify.com",
+      "size": "medium",
+      "color": "#1DB954",
+      "icon": "🎵"
+    },
+    {
+      "id": "perplexity",
+      "title": "Perplexity",
+      "url": "https://www.perplexity.ai/",
+      "size": "medium",
+      "color": "#20808D",
+      "icon": "🔍"
+    },
+    {
+      "id": "gemini",
+      "title": "Gemini",
+      "url": "https://gemini.google.com/app",
+      "size": "medium",
+      "color": "#8E44AD",
+      "icon": "✨"
+    },
+    {
+      "id": "chatgpt",
+      "title": "ChatGPT",
+      "url": "https://chatgpt.com/",
+      "size": "medium",
+      "color": "#10A37F",
+      "icon": "💬"
+    }
+  ]
+}
