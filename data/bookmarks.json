@@ -103,6 +103,22 @@
       "size": "medium",
       "color": "#10A37F",
       "icon": "💬"
+    },
+    {
+      "id": "linear",
+      "title": "Linear",
+      "url": "https://linear.app",
+      "size": "medium",
+      "color": "#5E6AD2",
+      "icon": "🧭"
+    },
+    {
+      "id": "clockify",
+      "title": "Clockify",
+      "url": "https://app.clockify.me",
+      "size": "medium",
+      "color": "#03A9F4",
+      "icon": "⏱️"
     }
   ]
 }
