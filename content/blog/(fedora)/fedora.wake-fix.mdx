@@ -1,0 +1,92 @@
+---
+title: "Fix Fedora Battery Drain During Sleep"
+description: "Permanent solution for suspend-wake loop causing battery drain on Fedora laptops"
+date: "2025-11-01"
+---
+
+# Fix Fedora Battery Drain During Sleep
+
+Your Fedora laptop's battery drains overnight because USB controllers and system timers keep waking it from suspend. Here's the permanent fix.
+
+## The Problem
+
+Your laptop enters suspend mode but immediately wakes up, creating a suspend-wake loop that drains the battery. The culprits are typically:
+- **USB controllers** (`XHC`, `TXHC`)
+- **Thunderbolt controllers** (`TDM0`, `TDM1`, `TRP0`, `TRP2`)
+- **System timer** (`AWAC`)
+
+Check your current wake sources:
+```bash
+cat /proc/acpi/wakeup
+```
+
+## The Solution
+
+Create a systemd service that disables problematic wake sources at boot. This won't affect lid-open or power-button wake functionality.
+
+### Step 1: Create Disable Script
+
+```bash
+sudo nano /usr/local/sbin/disable-wake.sh
+```
+
+Add this content:
+```bash copy
+#!/bin/bash
+
+# Disable problematic ACPI wake sources
+echo XHC > /proc/acpi/wakeup
+echo RP09 > /proc/acpi/wakeup
+echo TXHC > /proc/acpi/wakeup
+echo TDM0 > /proc/acpi/wakeup
+echo TDM1 > /proc/acpi/wakeup
+echo TRP0 > /proc/acpi/wakeup
+echo TRP2 > /proc/acpi/wakeup
+echo AWAC > /proc/acpi/wakeup
+```
+
+Make it executable:
+```bash
+sudo chmod +x /usr/local/sbin/disable-wake.sh
+```
+
+### Step 2: Create Systemd Service
+
+```bash
+sudo nano /etc/systemd/system/disable-wake.service
+```
+
+Add this configuration:
+```ini copy
+[Unit]
+Description=Disable unwanted ACPI wake-up sources at boot
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/disable-wake.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Step 3: Enable and Activate
+
+```bash
+sudo systemctl enable disable-wake.service
+sudo reboot
+```
+
+## How It Works
+
+Writing a device name to `/proc/acpi/wakeup` toggles its wake capability. The systemd service runs at boot to ensure these devices stay disabled across restarts.
+
+**Note**: `LID0` (lid sensor) and `PBTN` (power button) remain enabled, so you can still wake your laptop normally.
+
+## Verification
+
+After reboot, check that problematic devices show `*disabled`:
+```bash
+cat /proc/acpi/wakeup
+```
+
+Your battery should now last through the night.
