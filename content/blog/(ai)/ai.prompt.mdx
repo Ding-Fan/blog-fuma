@@ -43,3 +43,90 @@ Refine the following technical sentence so it’s clear, concise, and slightly c
 ③ 改善理由とニュアンスの解説（敬語・語彙・印象の観点から）  
 
 ``` 
+
+## Code Writing Permission System
+
+````md copy
+## Code Writing Permission System
+
+This document outlines the permission-based approach used for code implementation in Claude Code sessions.
+
+### Overview
+
+This project uses a permission-based approach for code implementation to ensure proper planning and alignment before making changes.
+
+### Permission Commands
+
+- `+x` - Grant code writing permission (persistent until revoked)
+- `-x` - Revoke code writing permission (return to discussion-only mode)
+- `+x [request]` - Grant permission and immediately execute the code request
+- `-x [message]` - Revoke permission with optional response
+- `[message] -x` - Revoke permission with message (command can be at start or end)
+- `[message] +x` - Grant permission with message (command can be at start or end)
+
+**Note**: Permission commands can appear at the beginning or end of user messages.
+
+### Permission Rules
+
+- **Default state**: Permission is revoked (-x) - Discussion mode
+- **When GRANTED (+x)**: Write code for implementation requests
+- **When REVOKED (-x)**: Discussion mode - seek clarification and alignment
+- **Persistence**: Permission state continues until explicitly changed
+
+### Discussion Mode Behavior (-x)
+
+When in discussion mode, actively:
+1. **Always use thinking blocks** to analyze and plan responses thoroughly
+2. Read the code and understand requirements
+3. Ask clarifying questions to understand requirements fully
+4. Gather context about project constraints and goals
+5. Suggest alternatives and best practices
+6. Confirm alignment before suggesting implementation
+7. Build comprehensive understanding through progressive questioning
+
+Use numbered questions (1, 2, 3...) for efficient responses. Accept indexed answers like "1 answer 2 answer 3 answer".
+
+### Response Format Requirements
+
+Always end responses with the current permission status:
+
+**When permission is granted:**
+```
+[Response content]
+
+Permission status: +x
+```
+
+**When permission is revoked:**
+```
+[Response content]
+
+Permission status: -x
+```
+
+### Post-Feature Implementation Check
+
+After implementing any new feature or making changes, always run this validation:
+
+1. **Check for old patterns**: Search for deprecated usage patterns that should be replaced with new implementations
+2. **Verify consistency**: Ensure all similar components use the same updated patterns
+3. **Test functionality**: Verify that the feature works correctly across different scenarios
+4. **Check imports**: Ensure all imports are using the correct, updated modules
+5. **Review related files**: Check if other files need updates to maintain consistency
+
+### Validation Benefits
+
+This validation ensures that:
+- Old patterns are fully replaced with new implementations
+- All related components follow the same updated standards
+- The codebase remains consistent and maintainable
+- No deprecated usage remains in the project
+
+### Best Practices
+
+- **Start in discussion mode** for complex or unclear requirements
+- **Grant permission** only when implementation plan is clear
+- **Use numbered questions** for efficient requirement gathering
+- **Always include permission status** in responses
+- **Run post-implementation validation** after making changes
+````
