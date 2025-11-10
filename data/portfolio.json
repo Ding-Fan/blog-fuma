@@ -1,0 +1,57 @@
+{
+  "projects": [
+    {
+      "id": "project-1",
+      "title": "E-Commerce Platform",
+      "description": "A modern e-commerce platform built with Next.js and Stripe integration. Features real-time inventory management and seamless checkout experience.",
+      "image": "/images/portfolio/project-1.png",
+      "tags": ["Next.js", "TypeScript", "Stripe", "Tailwind CSS"],
+      "demoUrl": "https://example.com/ecommerce",
+      "githubUrl": "https://github.com/username/ecommerce",
+      "featured": true,
+      "date": "2025-01"
+    },
+    {
+      "id": "project-2",
+      "title": "Portfolio Dashboard",
+      "description": "Interactive analytics dashboard for tracking portfolio performance. Built with React and D3.js for beautiful data visualizations.",
+      "image": "/images/portfolio/project-2.png",
+      "tags": ["React", "D3.js", "TypeScript", "Firebase"],
+      "demoUrl": "https://example.com/dashboard",
+      "githubUrl": "https://github.com/username/dashboard",
+      "featured": false,
+      "date": "2024-11"
+    },
+    {
+      "id": "project-3",
+      "title": "Task Management App",
+      "description": "Collaborative task management application with real-time updates and team workspace features.",
+      "image": "/images/portfolio/project-3.png",
+      "tags": ["Next.js", "Supabase", "React Query", "Tailwind CSS"],
+      "githubUrl": "https://github.com/username/taskapp",
+      "featured": true,
+      "date": "2024-09"
+    },
+    {
+      "id": "project-4",
+      "title": "Weather Forecast Widget",
+      "description": "Beautiful weather widget with 7-day forecasts and interactive maps. Uses OpenWeather API for real-time data.",
+      "image": "/images/portfolio/project-4.png",
+      "tags": ["React", "OpenWeather API", "CSS Modules"],
+      "demoUrl": "https://example.com/weather",
+      "featured": false,
+      "date": "2024-06"
+    },
+    {
+      "id": "project-5",
+      "title": "AI Content Generator",
+      "description": "AI-powered content generation tool using OpenAI GPT. Create blog posts, social media content, and marketing copy instantly.",
+      "image": "/images/portfolio/project-5.png",
+      "tags": ["Next.js", "OpenAI", "TypeScript", "PostgreSQL"],
+      "demoUrl": "https://example.com/ai-generator",
+      "githubUrl": "https://github.com/username/ai-generator",
+      "featured": true,
+      "date": "2025-02"
+    }
+  ]
+}
