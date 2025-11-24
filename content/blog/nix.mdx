@@ -1,0 +1,264 @@
+# nix
+
+## tips
+
+- use `${pkgs.pkgname}` to refer to the package path nix config
+
+- with home-manager, use [home.sessionVariables](https://mynixos.com/home-manager/option/home.sessionVariables) to set environment variables
+
+### to update nix darwin
+
+go to `~/.config/nix-darwin/` , run `nix flake update`
+
+## references
+
+I mainly followed ChatGPT for quick reference and
+
+- https://nixcademy.com/posts/nix-on-macos/
+  - Setting up Nix on macOS
+  - 📆 Mon Jan 15 2024 by Jacek Galowicz
+- Nix is my favorite package manager to use on macOS
+  - https://youtu.be/Z8BL8mdzWHI
+- https://mynixos.com/
+
+### documentation
+
+- https://daiderd.com/nix-darwin/manual/index.html
+  - nix-darwin Configuration Options
+- https://nix-community.github.io/home-manager/index.xhtml#ch-nix-flakes
+  - Home Manager Manual
+- https://nix-community.github.io/home-manager/options.xhtml#opt-home.file
+  - Home Manager Configuration Options
+- https://nixcademy.com/cheatsheet/
+  - Nix Cheatsheet
+
+### others
+
+- https://carlosvaz.com/posts/declarative-macos-management-with-nix-darwin-and-home-manager/#declarative-homebrew-package-management
+  - Declarative macOS management with nix-darwin and home-manager
+- https://github.com/LnL7/nix-darwin
+  - Nix modules for darwin, /etc/nixos/configuration.nix for macOS.
+- Nix in 100 Seconds
+  - https://youtu.be/FJVFXsNzYZQ
+- https://victorpierre.dev/blog/declarative-macos-configurations-with-nix/
+  - Reproducible macOS Configurations with Nix July 9, 2024
+- https://github.com/DeterminateSystems/nix-installer
+  - Determinate Nix Installer is a fast, friendly, and reliable way to install and manage Nix everywhere, including macOS, Linux, Windows Subsystem for Linux (WSL), SELinux, the Valve Steam Deck, and more. 
+- https://blog.6nok.org/how-i-use-nix-on-macos/
+  - How I use Nix on macOS
+- https://davi.sh/blog/2024/01/nix-darwin/
+  - Package management on macOS with nix-darwin
+
+### nix config reference
+
+- https://github.com/malob/nixpkgs
+  - This repo contains my Nix configs for macOS and Linux and by extension, configuration for most tools/programs I use, at least in the terminal.
+- https://github.com/kivikakk/vyxos
+
+## install Nix:the package manager
+
+I use Option 2. 
+
+> [It installs Nix with flakes enabled by default.](https://github.com/DeterminateSystems/nix-installer)
+
+### Option 1: Install Nix on macOS using the official installer
+
+- https://nixos.org/download/
+
+```bash
+sh <(curl -L https://nixos.org/nix/install)
+```
+
+### Option 2: Install Nix on macOS using the Determinate Nix Installer
+
+- https://github.com/DeterminateSystems/nix-installer
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
+  sh -s -- install
+```
+
+After the installation, open another terminal and try this hello world. Have patient, it might takes a while.
+
+```bash
+nix run "nixpkgs#hello"
+# Hello, world!
+```
+
+## install flakes 
+
+Already installed with the Determinate Nix Installer.
+
+## install nix-darwin
+
+- https://davi.sh/til/nix/nix-macos-setup
+  - Setting up Nix on macOS
+
+### create flake.nix
+
+- https://github.com/LnL7/nix-darwin?tab=readme-ov-file#step-1-creating-flakenix
+
+```bash
+mkdir -p ~/.config/nix-darwin
+cd ~/.config/nix-darwin
+nix flake init -t nix-darwin
+sed -i '' "s/simple/$(scutil --get LocalHostName)/" flake.nix
+```
+
+Open the created flake.nix, Change nixpkgs.hostPlatform to aarch64-darwin because I'm using Apple Silicon.
+
+### install nix-darwin
+
+```bash
+nix run nix-darwin -- switch --flake ~/.config/nix-darwin
+```
+
+### using nix-darwin
+
+Open a new terminal(or like me, open a new tab in iTerm2) and try this.
+
+```bash
+darwin-rebuild switch --flake ~/.config/nix-darwin
+```
+
+This will be the command you'll see go through the rest of your life, treasure the moment you haven't remember it yet.
+
+### update
+
+```bash
+# at ~/.config/nix-darwin
+nix flake update
+```
+
+## play with nix
+
+### remove vim and install neovim
+
+find the package name in nixpkgs
+
+- https://search.nixos.org/packages?channel=24.05&show=neovim&from=0&size=50&sort=relevance&type=packages&query=neovim
+
+Add the following Nix code to your NixOS Configuration, usually located in /etc/nixos/configuration.nix
+
+```bash
+  environment.systemPackages = [
+    pkgs.neovim
+  ];
+```
+  
+
+```bash
+# ~/.config/nix-darwin/flake.nix
+...
+environment.systemPackages = [
+    # pkgs.vim # remove this 
+    pkgs.neovim
+];
+```
+
+- https://github.com/sum-rock/SumAstroNvim
+  - Sum Rock's AstroNvim Implementation This is an implementation of the AstroNvim configuration/plugin distribution for Neovim using Nix flakes.
+  - maybe try it later
+  - it is so difficult to use astronvim with nix, the former is download and it is working, the latter is configure everything.
+
+### make installed GUI apps available in spotlight search
+
+```bash
+# ~/.config/nix-darwin/flake.nix
+# configuration = { pkgs, ... }: {
+# add config after pkgs,
+    configuration = { pkgs, config, ... }: {
+# add pkgs.mkalias to systemPackages
+    environment.systemPackages =
+    [
+        pkgs.mkalias
+# add this too
+# https://gist.github.com/elliottminns/211ef645ebd484eb9a5228570bb60ec3?permalink_comment_id=5271771#gistcomment-5271771
+system.activationScripts.applications.text = let
+  env = pkgs.buildEnv {
+    name = "system-applications";
+    paths = config.environment.systemPackages;
+    pathsToLink = "/Applications";
+  };
+in
+  pkgs.lib.mkForce ''
+  # Set up applications.
+  echo "setting up /Applications..." >&2
+  rm -rf /Applications/Nix\ Apps
+  mkdir -p /Applications/Nix\ Apps
+  find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+  while read -r src; do
+    app_name=$(basename "$src")
+    echo "copying $src" >&2
+    ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+  done
+      '';
+```
+
+## install home-manager with flake
+
+- https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-nix-darwin-module
+
+### to make the vscode nix format work
+
+install pkgs.nixfmt-rfc-style
+
+
+add this to vscode config
+
+```json
+    "nix.formatterPath": "/run/current-system/sw/bin/nixfmt"
+```
+
+### set default shell to fish
+
+To use iterm2 set command to fish [might lost the PATH environment](https://github.com/LnL7/nix-darwin/issues/122). Now use [this workaround](https://nixos.wiki/wiki/Fish#Setting_fish_as_your_shell).
+
+```bash
+# in home-manager configuration
+              programs.fish.enable = true;
+```
+
+```bash
+in nix-darwin flake.nix
+          programs.zsh = {
+            enable = true;
+            interactiveShellInit = ''
+              if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
+              then
+                shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
+                exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
+              fi
+            '';
+          };
+```
+
+### install app with homebrew
+
+find the app name in homebrew formulae, add it to here
+
+```bash
+# ~/.config/nix-darwin/flake.nix
+            casks = [
+              "folx"
+              "tailscale"
+              "calibre"
+              "the-unarchiver"
+              "android-studio"
+              "upscayl"
+              "arc"
+              # add to here
+            ];
+```
+
+then run
+
+```bash
+darwin-rebuild switch --flake ~/.config/nix-darwin
+```
+
+### clean nix store
+
+```bash
+sudo nix-collect-garbage -d
+```
