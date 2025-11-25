@@ -1,0 +1,61 @@
+# Flatpak CJK Font Issue
+
+Telegram, Bitwarden, Discord (Flatpak) showing missing/broken CJK characters, while VS Code and Brave display them fine.
+
+**Problem**: Flatpak apps use bad default CJK fonts and can't access system fonts.
+
+**Fix**:
+
+Wait for Flatpak to support global font overrides, or manually set font conf for each app.
+
+## for each app
+
+Use `flatpak list | grep -E "(telegram|bitwarden)"` to know the name of the Flatpak app.
+
+[As an example](https://github.com/flathub/org.chromium.Chromium/issues/238#issuecomment-1198639352) , create `~/.var/app/org.telegram.desktop/config/fontconfig/fonts.conf` with the following content:
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <match target="pattern">
+    <test qual="any" name="family">
+      <string>serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Heisei Mincho Std</string>
+      <string>Noto Serif CJK JP</string>
+      <string>Noto Serif CJK SC</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test qual="any" name="family">
+      <string>sans-serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Sans CJK JP</string>
+      <string>Noto Sans CJK SC</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test qual="any" name="family">
+      <string>monospace</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Sans Mono CJK JP</string>
+      <string>Noto Sans Mono CJK SC</string>
+    </edit>
+  </match>
+</fontconfig>
+```
+
+also do it for
+
+- com.bitwarden.desktop
+- com.discordapp.Discord
+
+
+- https://github.com/flatpak/flatpak/issues/6186
+- https://github.com/flatpak/flatpak/issues/1563
+- https://github.com/fedora-silverblue/issue-tracker/issues/534
+
