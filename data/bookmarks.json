@@ -119,6 +119,30 @@
       "size": "medium",
       "color": "#03A9F4",
       "icon": "⏱️"
+    },
+    {
+      "id": "clock",
+      "title": "Clock",
+      "url": "https://time-clock-tau.vercel.app/",
+      "size": "small",
+      "color": "#2196F3",
+      "icon": "⏰"
+    },
+    {
+      "id": "live-earthquake",
+      "title": "Live Earthquake",
+      "url": "https://typhoon.yahoo.co.jp/weather/jp/earthquake/kyoshin/",
+      "size": "medium",
+      "color": "#FF6B00",
+      "icon": "🌊"
+    },
+    {
+      "id": "quake-news",
+      "title": "Quake News",
+      "url": "https://typhoon.yahoo.co.jp/weather/jp/earthquake/",
+      "size": "small",
+      "color": "#DC143C",
+      "icon": "📰"
     }
   ]
 }
