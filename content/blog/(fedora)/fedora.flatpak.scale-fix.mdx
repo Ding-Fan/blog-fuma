@@ -2,8 +2,24 @@
 title: "Fixing Flatpak Scale Issues on Fedora"
 ---
 
+## scale 3x
+
 ```sh copy
 flatpak override --user --env=GDK_SCALE=3 --env=QT_SCALE_FACTOR=3
 ```
 
-Also use `ctrl +/-/0` to adjust scaling in applications that support it.
+## reset scale
+
+```sh copy
+# Reset Bitwarden
+flatpak override --user --reset com.bitwarden.desktop
+
+# Reset Discord
+flatpak override --user --reset com.discordapp.Discord
+
+# Reset all for the env
+flatpak override --user --unset-env=GDK_SCALE --unset-env=QT_SCALE_FACTOR
+```
+
+Also use `ctrl +/-/0` to adjust scaling in applications that support it. If the application looks small, try `ctrl + 0`
+
