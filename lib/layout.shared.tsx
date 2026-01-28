@@ -22,6 +22,10 @@ export function baseOptions(): BaseLayoutProps {
         text: 'Blog',
         url: '/blog',
       },
+      {
+        text: 'Prompts',
+        url: '/prompts',
+      },
     ],
   };
 }
