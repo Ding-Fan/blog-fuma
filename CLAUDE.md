@@ -4,21 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
+**Package Manager**: This project uses **pnpm** (not npm).
+
 ```bash
 # Start development server with Turbo mode
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
+pnpm build
 
 # Start production server
-npm start
+pnpm start
 
 # Run linting
-npm run lint
+pnpm lint
 
 # Process MDX files (runs automatically after install)
-npm run postinstall
+pnpm postinstall
+
+# Install dependencies
+pnpm install
 ```
 
 ## Architecture Overview
