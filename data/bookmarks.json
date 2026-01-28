@@ -25,20 +25,28 @@
       "icon": "📺"
     },
     {
-      "id": "twitter",
-      "title": "Twitter",
-      "url": "https://twitter.com",
+      "id": "perplexity",
+      "title": "Perplexity",
+      "url": "https://www.perplexity.ai/",
       "size": "small",
-      "color": "#1DA1F2",
-      "icon": "🐦"
+      "color": "#7B68EE",
+      "icon": "🔍"
     },
     {
-      "id": "reddit",
-      "title": "Reddit",
-      "url": "https://reddit.com",
+      "id": "gemini",
+      "title": "Gemini",
+      "url": "https://gemini.google.com/app",
       "size": "small",
-      "color": "#FF4500",
-      "icon": "🤖"
+      "color": "#8E44AD",
+      "icon": "✨"
+    },
+    {
+      "id": "chatgpt",
+      "title": "ChatGPT",
+      "url": "https://chatgpt.com/",
+      "size": "small",
+      "color": "#9B59B6",
+      "icon": "💬"
     },
     {
       "id": "stackoverflow",
@@ -47,6 +55,30 @@
       "size": "medium",
       "color": "#F48024",
       "icon": "💬"
+    },
+    {
+      "id": "linear",
+      "title": "Linear",
+      "url": "https://linear.app",
+      "size": "medium",
+      "color": "#5E6AD2",
+      "icon": "🧭"
+    },
+    {
+      "id": "clockify",
+      "title": "Clockify",
+      "url": "https://app.clockify.me",
+      "size": "medium",
+      "color": "#03A9F4",
+      "icon": "⏱️"
+    },
+    {
+      "id": "clock",
+      "title": "Clock",
+      "url": "https://time-clock-tau.vercel.app/",
+      "size": "small",
+      "color": "#2196F3",
+      "icon": "⏰"
     },
     {
       "id": "linkedin",
@@ -81,52 +113,20 @@
       "icon": "🎵"
     },
     {
-      "id": "perplexity",
-      "title": "Perplexity",
-      "url": "https://www.perplexity.ai/",
-      "size": "medium",
-      "color": "#20808D",
-      "icon": "🔍"
-    },
-    {
-      "id": "gemini",
-      "title": "Gemini",
-      "url": "https://gemini.google.com/app",
-      "size": "medium",
-      "color": "#8E44AD",
-      "icon": "✨"
-    },
-    {
-      "id": "chatgpt",
-      "title": "ChatGPT",
-      "url": "https://chatgpt.com/",
-      "size": "medium",
-      "color": "#10A37F",
-      "icon": "💬"
-    },
-    {
-      "id": "linear",
-      "title": "Linear",
-      "url": "https://linear.app",
-      "size": "medium",
-      "color": "#5E6AD2",
-      "icon": "🧭"
-    },
-    {
-      "id": "clockify",
-      "title": "Clockify",
-      "url": "https://app.clockify.me",
-      "size": "medium",
-      "color": "#03A9F4",
-      "icon": "⏱️"
-    },
-    {
-      "id": "clock",
-      "title": "Clock",
-      "url": "https://time-clock-tau.vercel.app/",
+      "id": "twitter",
+      "title": "Twitter",
+      "url": "https://twitter.com",
       "size": "small",
-      "color": "#2196F3",
-      "icon": "⏰"
+      "color": "#1DA1F2",
+      "icon": "🐦"
+    },
+    {
+      "id": "reddit",
+      "title": "Reddit",
+      "url": "https://reddit.com",
+      "size": "small",
+      "color": "#FF4500",
+      "icon": "🤖"
     },
     {
       "id": "live-earthquake",

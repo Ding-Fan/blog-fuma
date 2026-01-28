@@ -108,8 +108,10 @@ User visits on mobile device. Tile grid adapts to smaller screen with 2-column s
 - TypeScript interfaces with Zod validation
 - Runtime data validation with error handling
 - Accessibility (ARIA labels, keyboard navigation)
+- Visual grouping via reordering, color harmony, and spacers
 
 **NOT Included** (Future):
+- Schema-based categories with section headers → 🔧 Robust
 - Live tile content updates → 🔧 Robust
 - Drag-and-drop reordering → 🔧 Robust
 - Custom color picker → 🔧 Robust
@@ -145,11 +147,19 @@ User visits on mobile device. Tile grid adapts to smaller screen with 2-column s
 ```
 
 **Validation**: Zod schema enforces:
-- Required fields (id, title, url, size, color)
-- Valid URL format (HTTP/HTTPS only)
+- Required fields (id, size, color)
+- Valid URL format (HTTP/HTTPS or "#" for spacers)
 - Valid hex color format (#RRGGBB)
 - Valid size enum (small/medium/large)
 - Optional emoji icon
+- Optional title (can be empty for spacers)
+
+**Spacer Tile Support**:
+The schema allows empty/minimal values for spacer tiles:
+- `title`: Can be empty string for spacers
+- `url`: Can be "#" for non-navigable spacers
+- `color`: Dark color (#0a0a0a) recommended for subtle visual breaks
+- Spacers enable visual grouping without schema categories
 
 ## Security
 
@@ -158,6 +168,32 @@ User visits on mobile device. Tile grid adapts to smaller screen with 2-column s
 - Only renders validated emoji characters
 - URL validation (HTTP/HTTPS protocols only)
 - External links with `rel="noopener noreferrer"`
+
+## Visual Grouping (MVP Enhancement)
+
+**Approach**: Design-based grouping using Gestalt principles (no schema changes)
+
+**Techniques**:
+- **Proximity**: Related bookmarks ordered consecutively
+- **Color Harmony**: AI tools use unified purple gradient palette (#7B68EE, #8E44AD, #9B59B6)
+- **Spacing**: Subtle spacer tiles (small, #0a0a0a, title: "", url: "#") create visual breaks
+  - Schema validates "#" as acceptable URL for spacers
+  - Empty title allowed for non-interactive tiles
+
+**Groups**:
+- AI Tools (3) - Purple family colors
+- Development (3) - Mixed colors
+- Productivity (4) - Blue family
+- Entertainment (6) - Mixed vibrant colors
+- Utilities (2) - Orange/red family
+
+**Benefits**:
+- No schema/component changes required
+- Maintains simple flat data structure
+- Compatible with future category implementation
+- Immediate visual organization
+
+**Future**: Will migrate to category-based grouping in Robust tier
 
 ## Acceptance Criteria (MVP)
 
@@ -216,7 +252,7 @@ app/(home)/page.tsx    # Homepage using TileBookmarks
 
 ## Future Tiers
 
-**🔧 Robust** (+2 days): Live tile content (RSS/API updates), drag-and-drop reordering with position persistence, custom color picker UI, tile groups/categories.
+**🔧 Robust** (+2 days): Live tile content (RSS/API updates), drag-and-drop reordering with position persistence, custom color picker UI, schema-based categories with section headers (migrate from visual grouping).
 
 **🚀 Advanced** (+3 days): Flip animations with back-side content, full CRUD UI for managing tiles, localStorage + cloud sync, tile templates library, analytics tracking.
 

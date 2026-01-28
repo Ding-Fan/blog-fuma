@@ -3,10 +3,12 @@ import { z } from 'zod';
 // Zod schema for runtime validation
 export const bookmarkTileSchema = z.object({
   id: z.string().min(1, 'ID is required'),
-  title: z.string().min(1, 'Title is required'),
-  url: z.string().url('Invalid URL format').refine(
-    (url) => url.startsWith('http://') || url.startsWith('https://'),
-    { message: 'Only HTTP/HTTPS URLs are allowed' }
+  // Allow empty string for spacer tiles
+  title: z.string(),
+  // Allow "#" for spacer tiles, otherwise validate HTTP/HTTPS
+  url: z.string().refine(
+    (url) => url === '#' || (url.startsWith('http://') || url.startsWith('https://')),
+    { message: 'URL must be "#" or a valid HTTP/HTTPS URL' }
   ),
   size: z.enum(['small', 'medium', 'large']),
   color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Color must be a valid hex code'),
