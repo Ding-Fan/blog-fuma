@@ -80,12 +80,12 @@ export function BookmarkletGenerator({ promptContent, promptTitle }: Props) {
           📌 {promptTitle}
         </a>
         <p className="text-xs text-fd-muted-foreground mt-3">
-          <strong>Option 2:</strong> Click "Copy Bookmarklet" above, then:
+          <strong>Option 2:</strong> Click &quot;Copy Bookmarklet&quot; above, then:
         </p>
         <ol className="text-xs text-fd-muted-foreground mt-1 ml-4 list-decimal space-y-1">
           <li>Create a new bookmark in your browser</li>
           <li>Paste the copied code as the URL</li>
-          <li>Name it "{promptTitle}"</li>
+           <li>Name it &quot;{promptTitle}&quot;</li>
         </ol>
         <p className="text-xs text-fd-muted-foreground mt-2 text-green-600 dark:text-green-400">
           ✓ Works on ChatGPT, Gemini, and Claude

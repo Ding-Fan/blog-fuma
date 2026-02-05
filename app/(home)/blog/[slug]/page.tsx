@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { blog  } from '@/lib/source';
 import { DocsPage } from 'fumadocs-ui/page';
-import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { PostsLayout } from '@/components/ui/posts';
 
 export default async function Page(props: {

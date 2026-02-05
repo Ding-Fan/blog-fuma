@@ -1,5 +1,5 @@
 import type { PageTree } from 'fumadocs-core/server';
-import { type BaseLayoutProps, getLinks } from 'fumadocs-ui/layouts/shared';
+import { type BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import {
   type PageStyles,
   StylesProvider,
@@ -15,11 +15,8 @@ export interface PostsLayoutProps extends BaseLayoutProps {
 }
 
 export const PostsLayout = ({
-  nav = {},
-  i18n = false,
   ...props
 }: PostsLayoutProps): ReactNode => {
-  const links = getLinks(props.links ?? [], props.githubUrl);
 
   const variables = cn(
     '[--fd-nav-height:3.5rem] [--fd-tocnav-height:36px] xl:[--fd-toc-width:268px] xl:[--fd-tocnav-height:0px]',
