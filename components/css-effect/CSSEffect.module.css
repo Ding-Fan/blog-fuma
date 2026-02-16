@@ -1,0 +1,18 @@
+.base {
+  /* width: fit-content; */
+}
+
+.blur {
+  filter: blur(8px);
+}
+
+.hoverClear {
+  filter: blur(8px) brightness(0.7);
+  transition: all 0.2s ease;
+  margin-top: 20px;
+}
+
+.hoverClear:hover {
+  filter: none;
+  cursor: help;
+}

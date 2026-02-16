@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
+import { getMDXComponents } from '@/mdx-components';
 import { blog  } from '@/lib/source';
 import { DocsPage } from 'fumadocs-ui/page';
 import { PostsLayout } from '@/components/ui/posts';
@@ -36,7 +36,7 @@ export default async function Page(props: {
           <article className="container flex flex-col px-4 py-8">
             <div className="prose min-w-0">
               {/* <InlineTOC items={page.data.toc} /> */}
-              <Mdx components={defaultMdxComponents} />
+              <Mdx components={getMDXComponents()} />
             </div>
           </article>
         </DocsPage>
